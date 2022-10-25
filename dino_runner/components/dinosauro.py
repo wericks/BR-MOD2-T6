@@ -1,11 +1,13 @@
 import pygame
 
-from dino_runner.utils.constants import RUNNING, JUMPING
+from dino_runner.utils.constants import RUNNING, JUMPING, DUCKING
 
 # constant para uso global 
 X_POS = 80
-Y_POS = 301
+Y_POS = 310
 JUMP_VEL = 8.5
+
+
 class Dinosauro:
     def __init__(self):
         self.image = RUNNING[0]
@@ -15,13 +17,14 @@ class Dinosauro:
         self.step_index = 0
         self.dino_run = True
         self.dino_jump = False
-        self.dino_jump_vel = JUMP_VEL
+        self.jump_vel = JUMP_VEL
+
     # Metodo de atulizacao das acoes no jogo
     def update(self, user_input):
         if self.dino_run:
             self.run()
         elif self.dino_jump:
-            self.dino_jump()
+            self.jump()
 
         if user_input[pygame.K_UP] and not self.dino_jump:
             self.dino_jump = True
@@ -38,6 +41,7 @@ class Dinosauro:
         self.dino_rect = self.image.get_rect()
         self.dino_rect.x = X_POS
         self.dino_rect.y = Y_POS
+        self.step_index += 1
         
     def draw(self, screen): # screen para saber onde desenhar
         screen.blit(self.image, (self.dino_rect.x, self.dino_rect.y))
@@ -45,10 +49,14 @@ class Dinosauro:
     def jump(self):
         self.image = JUMPING
         if self.dino_jump:
-            self.dino_rect.y -= self.dino_jump_vel * 4
-            self.dino_jump_vel -= 0.8
+            self.dino_rect.y -= self.jump_vel * 4
+            self.jump_vel -= 0.8
 
-        if self.dino_jump_vel < -JUMP_VEL:
+        if self.jump_vel < -JUMP_VEL:
             self.dino_rect.y = Y_POS 
             self.dino_jump = False
-            self.dino_jump_vel - JUMP_VEL
+            self.jump_vel = JUMP_VEL
+
+#implementar metodo ate hoje 00
+
+        
