@@ -21,13 +21,10 @@ class Dinosauro:
 
     # Metodo de atulizacao das acoes no jogo
     def update(self, user_input):
-        if self.dino_run:
-            self.run()
-        elif self.dino_jump:
-            self.jump()
-        elif self.dino_duck:
-            self.duck()
-        
+
+        if self.step_index >= 10:
+            self.step_index = 0
+
         if user_input[pygame.K_UP] and not self.dino_jump:
             self.dino_duck = False
             self.dino_run = False
@@ -36,14 +33,18 @@ class Dinosauro:
             self.dino_duck = True
             self.dino_run = False
             self.dino_jump = False
-        elif not (self.dino_jump or user_input[pygame.K_DOWN]):
+        elif not (self.dino_jump or self.dino_duck): # valide os mesmos tipos 
             self.dino_duck = False
             self.dino_run = True
             self.dino_jump = False 
 
+        if self.dino_run:
+            self.run()
+        elif self.dino_jump:
+            self.jump()
+        elif self.dino_duck:
+            self.duck()
 
-        if self.step_index >= 10:
-            self.step_index = 0
 
     def run(self):
         self.image = RUNNING[0] if self.step_index < 5 else RUNNING[1] # condição if reduzida
@@ -74,3 +75,4 @@ class Dinosauro:
         self.dino_rect.y = Y_POS + 59 # + pro dino nao ficar voando
         # self.dino_rect.y = Y_POS * 2  # dino teleporta
         self.step_index += 1
+        self.dino_duck = False # permite que nao trave no posicao duck
