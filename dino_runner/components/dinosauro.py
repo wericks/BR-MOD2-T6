@@ -1,13 +1,14 @@
 import pygame
-
+# 1 linha vazia entre imports 
+from pygame.sprite import Sprite
 from dino_runner.utils.constants import RUNNING, JUMPING, DUCKING
 
 # constant para uso global 
 X_POS = 80
 Y_POS = 310
 JUMP_VEL = 8.5
-
-class Dinosauro:
+# 2 linhas para classe inicio
+class Dinosauro(Sprite):
     def __init__(self):
         self.image = RUNNING[0]
         self.dino_rect = self.image.get_rect()
@@ -18,13 +19,12 @@ class Dinosauro:
         self.dino_jump = False
         self.jump_vel = JUMP_VEL
         self.dino_duck = False
-
-    # Metodo de atulizacao das acoes no jogo
+    # Metodo de atulizacao das acoes no jogo # 1 linha para metodos
     def update(self, user_input):
 
         if self.step_index >= 10:
             self.step_index = 0
-
+        # 1 linha entre blocos de logica
         if user_input[pygame.K_UP] and not self.dino_jump:
             self.dino_duck = False
             self.dino_run = False
@@ -44,7 +44,6 @@ class Dinosauro:
             self.jump()
         elif self.dino_duck:
             self.duck()
-
 
     def run(self):
         self.image = RUNNING[0] if self.step_index < 5 else RUNNING[1] # condição if reduzida
@@ -66,7 +65,6 @@ class Dinosauro:
             self.dino_rect.y = Y_POS 
             self.dino_jump = False
             self.jump_vel = JUMP_VEL
-
 
     def duck(self):
         self.image = DUCKING[0] if self.step_index < 5 else DUCKING[1]
