@@ -70,7 +70,7 @@ class Dinosauro(Sprite):
         self.image = DUCKING[0] if self.step_index < 5 else DUCKING[1]
         self.dino_rect = self.image.get_rect()
         self.dino_rect.x = X_POS
-        self.dino_rect.y = Y_POS + 59 # + pro dino nao ficar voando
+        self.dino_rect.y = Y_POS + 40 # + pro dino nao ficar voando
         # self.dino_rect.y = Y_POS * 2  # dino teleporta
         self.step_index += 1
         self.dino_duck = False # permite que nao trave no posicao duck
