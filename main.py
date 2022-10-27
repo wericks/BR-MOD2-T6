@@ -9,7 +9,8 @@ if __name__ == "__main__":
 
 
 # tarefa, exibir mensagem de restart
-# exibir pontuação atingidae
+
+# exibir pontuação atingida
 # exibir a contagem de mortes acumulaticas
 # resetar o score e a velocidade 
 # criar um método reutilizável par adesernhar textos

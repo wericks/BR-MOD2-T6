@@ -21,6 +21,16 @@ class Game:
         self.death_count = 0
         self.player = Dinosauro() # player instancia da classe 
         self.obstacle_manager = ObstacleManager()
+        self.message = ""
+
+    def execute(self):
+        self.running = True
+        while self.running:
+            if not self.playing:
+                self.show_menu()
+
+        pygame.display.quit()
+        pygame.quit()
 
     def execute(self):
         self.running = True
@@ -35,6 +45,8 @@ class Game:
         # Game loop: events - update - draw
         self.playing = True
         self.obstacle_manager.reset_obtacles()
+        self.score = 0
+        self.game_speed = 20
         while self.playing:
             self.events()
             self.update()
@@ -77,11 +89,14 @@ class Game:
         self.x_pos_bg -= self.game_speed
 
     def draw_score(self):
+        self.message = "Pontos: " + str(self.score)
+        self.draw_text(self.message, 1000, 50)
         font = pygame.font.Font(FONT_STYLE, 22)
         text = font.render(f"Pontos: {self.score}", True, (0, 0, 0))
         text_rect = text.get_rect()
         text_rect.center = (1000, 50)
         self.screen.blit(text, text_rect)
+
 
     def handle_events_on_menu(self):
         for event in pygame.event.get():
@@ -97,19 +112,46 @@ class Game:
         half_screen_width = SCREEN_WIDTH //2
 
         if self.death_count == 0:
-            font = pygame.font.Font(FONT_STYLE, 22)
-            text = font.render("Press any key to start", True, (0, 0, 0))
-            text_rect = text.get_rect()
-            text_rect.center = (half_screen_width, half_screen_height)
-            self.screen.blit(text, text_rect)
-        else:
+            self.message = "Pressione alguma tecla"
+            self.draw_text(self.message, half_screen_width, half_screen_height)
+        elif self.death_count > 0 :
             # "Press any key to restart"
-            # score atingido
-            # death_count
-            # resetar game_speed e score
-            ## método reutilizável para desenhar os textos
-            self.screen.blit(ICON, (half_screen_width - 20, half_screen_height - 140))
+            self.message = "Precione uma tecla para reconeçar"
+            self.draw_text(self.message, half_screen_width, half_screen_height)
+
+            self.message = "Sua Pontuação: " + str(self.score)
+            self.draw_text(self.message, half_screen_width + 30, half_screen_height + 30)
+
+            self.message = "Mortes: " + str(self.death_count)
+            self.draw_text(self.message, half_screen_width + 30, half_screen_height + 60)
+            
+            
+            
+ 
+        # else:
+            
+        #     # score atingido
+        #     self.message = "Pontuação: + str(self.score"
+        #     self.draw_text(self.message, half_screen_width // 3, half_screen_height // 3)
+
+        #     # resetar game_speed e score
+        #     self.game_speed = 20
+        #     self.death_count += 1
+        #     self.message = f"Mortes {self.death_count}"
+        #     self.draw_text(self.message, half_screen_width + 45, half_screen_height + 45)
+            
+        #     # death_count
+            
+        #     self.screen.blit(ICON, (half_screen_width - 20, half_screen_height - 140))
 
         pygame.display.update()
         self.handle_events_on_menu()
-            
+
+
+    def draw_text(self, message, screen_width, screen_height):
+        ## método reutilizável para desenhar os textos
+        font = pygame.font.Font(FONT_STYLE, 22)
+        text = font.render(message, True, (0, 0, 0))
+        text_rect = text.get_rect()
+        text_rect.center = (screen_width, screen_height)
+        self.screen.blit(text, text_rect)
