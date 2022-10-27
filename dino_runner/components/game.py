@@ -32,6 +32,15 @@ class Game:
         pygame.display.quit()
         pygame.quit()
 
+    def execute(self):
+        self.running = True
+        while self.running:
+            if not self.playing:
+                self.show_menu()
+
+        pygame.display.quit()
+        pygame.quit()
+
     def run(self):
         # Game loop: events - update - draw
         self.playing = True
@@ -82,6 +91,12 @@ class Game:
     def draw_score(self):
         self.message = "Pontos: " + str(self.score)
         self.draw_text(self.message, 1000, 50)
+        font = pygame.font.Font(FONT_STYLE, 22)
+        text = font.render(f"Pontos: {self.score}", True, (0, 0, 0))
+        text_rect = text.get_rect()
+        text_rect.center = (1000, 50)
+        self.screen.blit(text, text_rect)
+
 
     def handle_events_on_menu(self):
         for event in pygame.event.get():
