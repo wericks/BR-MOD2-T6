@@ -58,9 +58,6 @@ class Game:
         if self.score % 100 == 0:
             self.game_speed += 5
 
-        if self.running == False:
-            self.score = 0
-
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
