@@ -58,6 +58,9 @@ class Game:
         if self.score % 100 == 0:
             self.game_speed += 5
 
+        if self.running == False:
+            self.score = 0
+
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
@@ -78,7 +81,7 @@ class Game:
         self.x_pos_bg -= self.game_speed
 
     def draw_score(self):
-        self.message = f"Pontos: {self.score}"
+        self.message = "Pontos: " + str(self.score)
         self.draw_text(self.message, 1000, 50)
 
     def handle_events_on_menu(self):
@@ -87,6 +90,7 @@ class Game:
                 self.playing = False
                 self.running = False
             elif event.type == pygame.KEYDOWN:
+                self.score = 0
                 self.run()
 
     def show_menu(self):
@@ -97,32 +101,45 @@ class Game:
         if self.death_count == 0:
             self.message = "Pressione alguma tecla"
             self.draw_text(self.message, half_screen_width, half_screen_height)
-
-        else:
-            # "Press any key to restart"
-            self.message = f"Precione uma tecla para reconeçar"
-            self.draw_text(self.message, half_screen_width, half_screen_height)
-            # score atingido
-            self.message = f"Pontuação {self.score}"
-            self.draw_text(self.message, half_screen_width // 3, half_screen_height // 3)
-
-            # resetar game_speed e score
+        elif self.death_count > 0 :
             self.game_speed = 20
-            self.death_count += 1
-            self.message = f"Mortes {self.death_count}"
-            self.draw_text(self.message, half_screen_width + 45, half_screen_height + 45)
+            # "Press any key to restart"
+            self.message = "Precione uma tecla para reconeçar"
+            self.draw_text(self.message, half_screen_width, half_screen_height)
+
+            self.message = "Sua Pontuação: " + str(self.score)
+            self.draw_text(self.message, half_screen_width + 30, half_screen_height + 30)
+
+            self.message = "Mortes: " + str(self.death_count)
+            self.draw_text(self.message, half_screen_width + 30, half_screen_height + 60)
             
-            # death_count
             
-            self.screen.blit(ICON, (half_screen_width - 20, half_screen_height - 140))
+            
+ 
+        # else:
+            
+        #     # score atingido
+        #     self.message = "Pontuação: + str(self.score"
+        #     self.draw_text(self.message, half_screen_width // 3, half_screen_height // 3)
+
+        #     # resetar game_speed e score
+        #     self.game_speed = 20
+        #     self.death_count += 1
+        #     self.message = f"Mortes {self.death_count}"
+        #     self.draw_text(self.message, half_screen_width + 45, half_screen_height + 45)
+            
+        #     # death_count
+            
+        #     self.screen.blit(ICON, (half_screen_width - 20, half_screen_height - 140))
 
         pygame.display.update()
         self.handle_events_on_menu()
 
+
     def draw_text(self, message, screen_width, screen_height):
-            ## método reutilizável para desenhar os textos
-            font = pygame.font.Font(FONT_STYLE, 22)
-            text = font.render(message, True, (0, 0, 0))
-            text_rect = text.get_rect()
-            text_rect.center = (screen_width, screen_height)
-            self.screen.blit(text, text_rect)
+        ## método reutilizável para desenhar os textos
+        font = pygame.font.Font(FONT_STYLE, 22)
+        text = font.render(message, True, (0, 0, 0))
+        text_rect = text.get_rect()
+        text_rect.center = (screen_width, screen_height)
+        self.screen.blit(text, text_rect)
