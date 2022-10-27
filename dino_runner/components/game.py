@@ -1,3 +1,5 @@
+from asyncio import events
+from turtle import delay
 import pygame
 
 from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
