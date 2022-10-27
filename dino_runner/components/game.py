@@ -1,3 +1,5 @@
+from asyncio import events
+from turtle import delay
 import pygame
 
 from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
@@ -21,6 +23,7 @@ class Game:
         self.death_count = 0
         self.player = Dinosauro() # player instancia da classe 
         self.obstacle_manager = ObstacleManager()
+        self.message = ""
 
     def execute(self):
         self.running = True
@@ -77,11 +80,8 @@ class Game:
         self.x_pos_bg -= self.game_speed
 
     def draw_score(self):
-        font = pygame.font.Font(FONT_STYLE, 22)
-        text = font.render(f"Pontos: {self.score}", True, (0, 0, 0))
-        text_rect = text.get_rect()
-        text_rect.center = (1000, 50)
-        self.screen.blit(text, text_rect)
+        self.message = f"Pontos: {self.score}"
+        self.draw_text(self.message, 1000, 50)
 
     def handle_events_on_menu(self):
         for event in pygame.event.get():
@@ -97,19 +97,33 @@ class Game:
         half_screen_width = SCREEN_WIDTH //2
 
         if self.death_count == 0:
-            font = pygame.font.Font(FONT_STYLE, 22)
-            text = font.render("Press any key to start", True, (0, 0, 0))
-            text_rect = text.get_rect()
-            text_rect.center = (half_screen_width, half_screen_height)
-            self.screen.blit(text, text_rect)
+            self.message = "Pressione alguma tecla"
+            self.draw_text(self.message, half_screen_width, half_screen_height)
+
         else:
             # "Press any key to restart"
+            self.message = f"Precione uma tecla para reconeçar"
+            self.draw_text(self.message, half_screen_width, half_screen_height)
             # score atingido
-            # death_count
+            self.message = f"Pontuação {self.score}"
+            self.draw_text(self.message, half_screen_width // 3, half_screen_height // 3)
+
             # resetar game_speed e score
-            ## método reutilizável para desenhar os textos
+            self.game_speed = 20
+            self.death_count += 1
+            self.message = f"Mortes {self.death_count}"
+            self.draw_text(self.message, half_screen_width + 45, half_screen_height + 45)
+            # death_count
+            
             self.screen.blit(ICON, (half_screen_width - 20, half_screen_height - 140))
 
         pygame.display.update()
         self.handle_events_on_menu()
-            
+
+    def draw_text(self, message, screen_width, screen_height):
+            ## método reutilizável para desenhar os textos
+            font = pygame.font.Font(FONT_STYLE, 22)
+            text = font.render(message, True, (0, 0, 0))
+            text_rect = text.get_rect()
+            text_rect.center = (screen_width, screen_height)
+            self.screen.blit(text, text_rect)
