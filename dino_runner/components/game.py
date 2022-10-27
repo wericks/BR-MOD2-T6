@@ -88,6 +88,7 @@ class Game:
                 self.running = False
             elif event.type == pygame.KEYDOWN:
                 self.score = 0
+                self.game_speed = 20
                 self.run()
 
     def show_menu(self):
@@ -99,7 +100,6 @@ class Game:
             self.message = "Pressione alguma tecla"
             self.draw_text(self.message, half_screen_width, half_screen_height)
         elif self.death_count > 0 :
-            self.game_speed = 20
             # "Press any key to restart"
             self.message = "Precione uma tecla para reconeçar"
             self.draw_text(self.message, half_screen_width, half_screen_height)
